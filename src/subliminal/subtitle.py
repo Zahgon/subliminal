@@ -48,23 +48,12 @@ BOMS = (
 
 def check_encoding(encoding: str | None) -> str | None:
     """Check that the encoding name exists."""
-    if not encoding:
-        return None
-
-    # validate the encoding
-    try:
-        encoding = codecs.lookup(encoding).name
-    except (TypeError, LookupError):
-        logger.debug('Unsupported encoding %s', encoding)
-    else:
-        return encoding
-
-    return None
+    pass
 
 
 def ensure_positive(value: float | None) -> float | None:
     """Return None if the value is non-positive."""
-    return value if value is not None and value > 0 else None
+    pass
 
 
 #: Subtitle category
@@ -94,19 +83,11 @@ class SubtitleCategory(Enum):
 
     def is_hearing_impaired(self) -> bool | None:
         """Flag for hearing impaired."""
-        if self == SubtitleCategory.HEARING_IMPAIRED:
-            return True
-        if self == SubtitleCategory.UNKNOWN:
-            return None
-        return False
+        pass
 
     def is_foreign_only(self) -> bool | None:
         """Flag for foreign only."""
-        if self == SubtitleCategory.FOREIGN_ONLY:
-            return True
-        if self == SubtitleCategory.UNKNOWN:
-            return None
-        return False
+        pass
 
 
 class Subtitle:
@@ -210,13 +191,12 @@ class Subtitle:
     @property
     def subtitle_id(self) -> str:
         """Unique identifier of the subtitle, read-only."""
-        # Because it is used in __hash__, it needs to be immutable.
-        return self._subtitle_id
+        pass
 
     @property
     def id(self) -> str:
         """Unique identifier of the subtitle, read-only."""
-        return str(self.subtitle_id)
+        pass
 
     @property
     def info(self) -> str:
@@ -226,32 +206,32 @@ class Subtitle:
     @property
     def hearing_impaired(self) -> bool | None:
         """Whether the subtitle is for hearing impaired."""
-        return self.category.is_hearing_impaired()
+        pass
 
     @property
     def foreign_only(self) -> bool | None:
         """Whether the subtitle is a foreign only / forced subtitle."""
-        return self.category.is_foreign_only()
+        pass
 
     @property
     def encoding(self) -> str | None:
         """Subtitle encoding."""
-        return self._encoding
+        pass
 
     @encoding.setter
     def encoding(self, value: str | None) -> None:
         """Subtitle encoding."""
-        self._encoding = check_encoding(value)
+        pass
 
     @property
     def fps(self) -> float | None:
         """Framerate for frame-based formats (MicroDVD)."""
-        return self._fps
+        pass
 
     @fps.setter
     def fps(self, value: float | None) -> None:
         """Framerate for frame-based formats (MicroDVD)."""
-        self._fps = ensure_positive(value)
+        pass
 
     @property
     def content(self) -> bytes | None:
@@ -260,18 +240,16 @@ class Subtitle:
         If :attr:`encoding` is None, the encoding is guessed with :meth:`guess_encoding`
 
         """
-        return self._content
+        pass
 
     @content.setter
     def content(self, value: bytes | None) -> None:
-        self.set_content(value)
+        pass
 
     @property
     def text(self) -> str:
         """Content as string."""
-        if not self._is_decoded:
-            self._text = self._decode_content()
-        return self._text
+        pass
 
     def set_content(self, value: bytes | None, *, fix: bool = True) -> None:
         """Set subtitle bytes content."""
@@ -292,18 +270,7 @@ class Subtitle:
         self._is_valid = None
 
     def _decode_content(self) -> str:
-        self._is_decoded = True
-
-        if not isinstance(self.content, bytes) or not self.content:
-            return ''
-
-        # No encoding found
-        if not self.encoding:
-            logger.warning('Cannot guess encoding to decode subtitle content.')
-            return ''
-
-        # Decode
-        return self.content.decode(self.encoding, errors='replace')
+        pass
 
     def reencode(self, text: str | None = None, encoding: str = 'utf-8') -> bool:
         """Re-encode the subtitle raw content using the specified encoding.

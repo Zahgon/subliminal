@@ -163,20 +163,12 @@ class BSPlayerSubtitle(Subtitle):
     @property
     def series_name(self) -> str | None:
         """The series name matched from `movie_name`."""
-        if self.movie_name:
-            matches = self.series_re.match(self.movie_name)
-            if matches:
-                return matches.group('series_name')
-        return None
+        pass
 
     @property
     def series_title(self) -> str | None:
         """The series title matched from `movie_name`."""
-        if self.movie_name:
-            matches = self.series_re.match(self.movie_name)
-            if matches:
-                return matches.group('series_title')
-        return None
+        pass
 
     def get_matches(self, video: Video) -> set[str]:
         """Get the matches against the `video`."""
@@ -273,26 +265,11 @@ class BSPlayerProvider(Provider):
 
     def initialize(self) -> None:
         """Initialize the provider."""
-        root = self._api_request(
-            func_name='logIn',
-            params='<username></username><password></password><AppID>BSPlayer v2.67</AppID>',
-        )
-        res = root.find('.//return')
-        if res is None or find_text(res, 'status') != 'OK':
-            msg = '[BSPlayer] ERROR: Unable to login.'
-            raise AuthenticationError(msg)
-        self.token = find_text(res, 'data')
+        pass
 
     def terminate(self) -> None:
         """Terminate the provider."""
-        if self.token is None:
-            raise NotInitializedProviderError
-        root = self._api_request(func_name='logOut', params=f'<handle>{self.token}</handle>')
-        res = root.find('.//return')
-        if res is None or find_text(res, 'status') != 'OK':
-            msg = '[BSPlayer] ERROR: Unable to close session.'
-            logger.error(msg)
-        self.token = None
+        pass
 
     def query(
         self,

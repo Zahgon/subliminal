@@ -121,16 +121,11 @@ class TVsubtitlesProvider(Provider):
 
     def initialize(self) -> None:
         """Initialize the provider."""
-        self.session = Session()
-        self.session.headers['User-Agent'] = self.user_agent
-        self.session.headers['Referer'] = f'{self.server_url}/'
-        self.session.headers['X-Requested-With'] = 'XMLHttpRequest'
+        pass
 
     def terminate(self) -> None:
         """Terminate the provider."""
-        if not self.session:
-            raise NotInitializedProviderError
-        self.session.close()
+        pass
 
     @region.cache_on_arguments(expiration_time=SHOW_EXPIRATION_TIME)
     def search_show_id(self, series: str, year: int | None = None) -> int | None:

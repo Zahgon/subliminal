@@ -38,15 +38,7 @@ class SecLevelOneTLSAdapter(adapters.HTTPAdapter):
 
     def init_poolmanager(self, connections: int, maxsize: int, block: bool = False, **pool_kwargs: Any) -> None:  # noqa: FBT001, FBT002
         """Create and initialize the urllib3 PoolManager."""
-        ctx = ssl.create_default_context()
-        ctx.set_ciphers('DEFAULT@SECLEVEL=1')
-        self.poolmanager = poolmanager.PoolManager(
-            num_pools=connections,
-            maxsize=maxsize,
-            block=block,
-            ssl_version=ssl.PROTOCOL_TLS,
-            ssl_context=ctx,
-        )
+        pass
 
 
 class TimeoutSafeTransport(SafeTransport):
@@ -75,10 +67,7 @@ class TimeoutSafeTransport(SafeTransport):
         :rtype: :library/http.client:class:`~http.client.HTTPSConnection`
 
         """
-        c = SafeTransport.make_connection(self, host)
-        c.timeout = self.timeout
-
-        return c
+        pass
 
 
 class ParserBeautifulSoup(BeautifulSoup):

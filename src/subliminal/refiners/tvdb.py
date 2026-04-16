@@ -34,14 +34,7 @@ series_re = re.compile(r'^(?P<series>.*?)(?: \((?:(?P<year>\d{4})|(?P<country>[A
 
 def requires_auth(func: C) -> C:
     """Decorator for :class:`TVDBClient` methods that require authentication."""
-
-    @wraps(func)
-    def wrapper(self: TVDBClient, *args: Any, **kwargs: Any) -> Any:
-        if self.token is None or self.token_expired:
-            self.login()
-        return func(self, *args, **kwargs)
-
-    return cast('C', wrapper)
+    pass
 
 
 class TVDBClient:
@@ -115,36 +108,25 @@ class TVDBClient:
     @property
     def language(self) -> str:
         """Header language of the response."""
-        return str(self.session.headers['Accept-Language'])
+        pass
 
     @language.setter
     def language(self, value: str) -> None:
-        self.session.headers['Accept-Language'] = value
+        pass
 
     @property
     def token(self) -> str | None:
         """Authentication token."""
-        if 'Authorization' not in self.session.headers:
-            return None
-        return str(self.session.headers['Authorization'][7:])
+        pass
 
     @property
     def token_expired(self) -> bool:
         """Check if the token expired."""
-        return datetime.now(timezone.utc) - self.token_date >= self.token_lifespan
+        pass
 
     def login(self) -> None:
         """Login."""
-        # perform the request
-        data = {'apikey': self.apikey, 'username': self.username, 'password': self.password}
-        r = self.session.post(self.base_url + '/login', json=data, timeout=self.timeout)
-        r.raise_for_status()
-
-        # set the Authorization header
-        self.session.headers['Authorization'] = 'Bearer ' + r.json()['token']
-
-        # update token_date
-        self.token_date = datetime.now(timezone.utc)
+        pass
 
     @region.cache_on_arguments(expiration_time=REFINER_EXPIRATION_TIME)
     @requires_auth
@@ -251,14 +233,7 @@ class TVDBClient:
         :rtype: dict
 
         """
-        # perform the request
-        params = {'page': page}
-        r = self.session.get(self.base_url + f'/series/{series_id:d}/episodes', params=params, timeout=self.timeout)
-        if r.status_code == 404:
-            return {}
-        r.raise_for_status()
-
-        return cast('dict', r.json())
+        pass
 
     @region.cache_on_arguments(expiration_time=REFINER_EXPIRATION_TIME)
     @requires_auth
@@ -287,28 +262,17 @@ class TVDBClient:
         :rtype: dict
 
         """
-        # perform the request
-        r = self.session.get(self.base_url + f'/series/{series_id:d}/actors', timeout=self.timeout)
-        if r.status_code == 404:
-            return []
-        r.raise_for_status()
-
-        return cast('list', r.json()['data'])
+        pass
 
     @property
     def apikey(self) -> str:
         """API key for search."""
-        return self._apikey
+        pass
 
     @apikey.setter
     def apikey(self, value: str) -> None:
         # early return if the API key is unchanged
-        if value == self._apikey:
-            return
-        self._apikey = value
-        # invalidate the token
-        if 'Authorization' in self.session.headers:
-            del self.session.headers['Authorization']
+        pass
 
 
 #: Default client

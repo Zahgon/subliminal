@@ -109,17 +109,11 @@ class MockProvider(Provider):
 
     def initialize(self) -> None:
         """Initialize the provider."""
-        logger.info('Mock provider %s was initialized', self.__class__.__name__)
-        self.logged_in = True
+        pass
 
     def terminate(self) -> None:
         """Terminate the provider."""
-        if not self.logged_in:  # pragma: no cover
-            logger.info('Mock provider %s was not terminated', self.__class__.__name__)
-            raise NotInitializedProviderError
-
-        logger.info('Mock provider %s was terminated', self.__class__.__name__)
-        self.logged_in = False
+        pass
 
     def query(
         self,

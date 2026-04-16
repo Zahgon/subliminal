@@ -112,14 +112,11 @@ class NapiProjektProvider(Provider):
 
     def initialize(self) -> None:
         """Initialize the provider."""
-        self.session = Session()
-        self.session.headers['User-Agent'] = self.user_agent
+        pass
 
     def terminate(self) -> None:
         """Terminate the provider."""
-        if self.session is None:
-            raise NotInitializedProviderError
-        self.session.close()
+        pass
 
     def _parse_content(self, content: bytes) -> bytes:
         """Parse the subtitle content from the response."""

@@ -40,21 +40,19 @@ class MutexLock(AbstractFileLock):  # pragma: no cover
 
     def acquire_read_lock(self, wait: bool) -> bool:
         """Acquire a reader lock."""
-        ret = self.mutex.acquire_read_lock(wait)  # type: ignore[no-untyped-call]
-        return wait or bool(ret)
+        pass
 
     def acquire_write_lock(self, wait: bool) -> bool:
         """Acquire a writer lock."""
-        ret = self.mutex.acquire_write_lock(wait)  # type: ignore[no-untyped-call]
-        return wait or bool(ret)
+        pass
 
     def release_read_lock(self) -> None:
         """Release a reader lock."""
-        return self.mutex.release_read_lock()  # type: ignore[no-untyped-call,no-any-return]
+        pass
 
     def release_write_lock(self) -> None:
         """Release a writer lock."""
-        return self.mutex.release_write_lock()  # type: ignore[no-untyped-call,no-any-return]
+        pass
 
 
 def split_doc_args(args: str | None) -> list[str]:
@@ -182,29 +180,7 @@ def options_from_managers(
     click_option = click.option if group is None else group.option
 
     def decorator(f: Callable) -> Callable:
-        for plugin_name, opt_params in options.items():
-            for opt in reversed(opt_params):
-                name = opt['name']
-                # CLI option has dots, variable has double-underscores to differentiate
-                # with simple underscore in provider name or keyword argument.
-                param_decls = (
-                    PROVIDERS_OPTIONS_CLI_TEMPLATE.format(ext=group_name, plugin=plugin_name, key=name),
-                    PROVIDERS_OPTIONS_TEMPLATE.format(ext=group_name, plugin=plugin_name, key=name),
-                )
-                # Setting the default value also decides on the type
-                attrs = {
-                    'default': opt['default'],
-                    'help': opt['desc'],
-                    'show_default': True,
-                    'show_envvar': True,
-                    'envvar': PROVIDERS_OPTIONS_ENVVAR_TEMPLATE.format(
-                        ext=group_name.upper(),
-                        plugin=plugin_name.upper(),
-                        key=name.upper(),
-                    ),
-                }
-                f = click_option(*param_decls, **attrs)(f)  # type: ignore[operator]
-        return f
+        pass
 
     return decorator
 

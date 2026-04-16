@@ -43,8 +43,4 @@ class OpenSubtitlesComConverter(LanguageReverseConverter):
 
     def reverse(self, code: str) -> LanguageTuple:
         """Reverse a custom code into alpha3, country and script code."""
-        code_lower = code.lower()
-        if code_lower in self.from_opensubtitlescom:
-            return (*self.from_opensubtitlescom[code_lower], None)
-
-        return self.alpha2_converter.reverse(code)  # type: ignore[no-any-return]
+        pass

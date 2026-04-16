@@ -291,20 +291,7 @@ class OpenSubtitlesComSubtitle(Subtitle):
 
 def requires_auth(func: C) -> C:
     """Decorator for :class:`OpenSubtitlesComProvider` methods that require authentication."""
-
-    @wraps(func)
-    def wrapper(self: OpenSubtitlesComProvider, *args: Any, **kwargs: Any) -> Any:
-        if not self.check_token():
-            # token expired
-            self.login()
-
-            if not self.check_token():
-                msg = 'Cannot authenticate with username and password'
-                raise AuthenticationError(msg)
-
-        return func(self, *args, **kwargs)
-
-    return cast('C', wrapper)
+    pass
 
 
 class OpenSubtitlesComProvider(Provider):
@@ -358,130 +345,48 @@ class OpenSubtitlesComProvider(Provider):
 
     def initialize(self) -> None:
         """Initialize the provider."""
-        self.session = Session()
-        self.session.headers['User-Agent'] = self.user_agent
-        self.session.headers['Api-Key'] = self.apikey
-        self.session.headers['Accept'] = '*/*'
-        self.session.headers['Content-Type'] = 'application/json'
+        pass
 
     def terminate(self) -> None:
         """Terminate the provider."""
-        if not self.session:
-            raise NotInitializedProviderError
-
-        # logout
-        self.logout()
+        pass
 
     def check_token(self) -> bool:
         """Check if the token is valid."""
-        if not self.session:
-            raise NotInitializedProviderError
-
-        # Check token is present
-        if self.token_expires_at is not None and self.token is not None:
-            if datetime.now(timezone.utc) < self.token_expires_at:
-                return True
-            del self.token
-            self.token_expires_at = None
-
-        # Check cached token
-        token = region.get('oscom_token', expiration_time=TOKEN_EXPIRATION_TIME)
-        if token is NO_VALUE:
-            return False
-
-        # Login was already done, add token to Bearer
-        self.session.headers['Authorization'] = 'Bearer ' + str(token)
-        return True
+        pass
 
     def login(self, *, wait: bool = False) -> None:
         """Login with the POST REST API."""
-        if not self.session:
-            raise NotInitializedProviderError
-        if not self.username or not self.password:
-            logger.info('Cannot log in, a username and password must be provided')
-            return
-
-        if wait:
-            # Wait 1s between calls
-            time.sleep(1)
-
-        logger.info('Logging in')
-        data = {'username': self.username, 'password': self.password}
-
-        try:
-            r = self.session.post(self.server_url + 'login', json=data, timeout=self.timeout)
-            r = checked(r)
-        except ProviderError:
-            # raise error
-            logger.exception('An error occurred')
-            raise
-
-        ret = r.json()
-        token = ret['token']
-        if not token:
-            logger.debug('Error, the authentication token is empty.')
-            return
-
-        # Set cache
-        region.set('oscom_token', token)
-        # Set token in header
-        self.token = token
-        self.token_expires_at = datetime.now(timezone.utc) + timedelta(seconds=TOKEN_EXPIRATION_TIME)
-
-        logger.debug('Logged in')
+        pass
 
     def logout(self) -> None:
         """Logout by closing the Session."""
-        if not self.session:
-            raise NotInitializedProviderError
-        del self.token
-        self.session.close()
+        pass
 
     @staticmethod
     def reset_token() -> None:
         """Reset the authentication token from the cache."""
-        logger.debug('Authentication failed: clearing cache and attempting to login.')
-        region.delete('oscom_token')
+        pass
 
     @property
     def token(self) -> str | None:
         """Authentication token."""
-        if not self.session:
-            return None
-        if 'Authorization' not in self.session.headers:
-            return None
-        auth = str(self.session.headers['Authorization'])
-        prefix = 'Bearer '
-        if auth is None or not auth.startswith(prefix):
-            return None
-        return auth[len(prefix) :]
+        pass
 
     @token.setter
     def token(self, value: str) -> None:
         """Authentication token."""
-        if not self.session:
-            return
-        self.session.headers['Authorization'] = 'Bearer ' + str(value)
+        pass
 
     @token.deleter
     def token(self) -> None:
         """Authentication token."""
-        if not self.session:
-            return
-        if 'Authorization' in self.session.headers:
-            del self.session.headers['Authorization']
+        pass
 
     @requires_auth
     def user_infos(self) -> dict[str, Any]:
         """Return information about the user."""
-        if not self.session:
-            raise NotInitializedProviderError
-
-        logger.debug('User infos')
-
-        response = self.api_get('infos/user')
-        logger.debug(response)
-        return response
+        pass
 
     def api_post(
         self,

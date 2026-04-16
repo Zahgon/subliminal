@@ -108,18 +108,12 @@ class OpenSubtitlesSubtitle(Subtitle):
     @property
     def series_name(self) -> str:
         """The series name matched from `movie_name`."""
-        m = self.series_re.match(self.movie_name)
-        if m:
-            return str(m.group('series_name'))
-        return ''
+        pass
 
     @property
     def series_title(self) -> str:
         """The series title matched from `movie_name`."""
-        m = self.series_re.match(self.movie_name)
-        if m:
-            return str(m.group('series_title'))
-        return ''
+        pass
 
     def get_matches(self, video: Video) -> set[str]:
         """Get the matches against the `video`."""
@@ -209,23 +203,15 @@ class OpenSubtitlesProvider(Provider):
 
     def initialize(self) -> None:
         """Initialize the provider."""
-        logger.info('Logging in')
-        response = checked(self.server.LogIn(self.username, self.password, 'eng', self.user_agent))  # type: ignore[arg-type]
-        self.token = str(response['token'])
-        logger.debug('Logged in with token %r', self.token)
+        pass
 
     def terminate(self) -> None:
         """Terminate the provider."""
-        logger.info('Logging out')
-        checked(self.server.LogOut(self.token))  # type: ignore[arg-type]
-        self.server.close()
-        self.token = None
-        logger.debug('Logged out')
+        pass
 
     def no_operation(self) -> None:
         """No-operation on the server."""
-        logger.debug('No operation')
-        checked(self.server.NoOperation(self.token))  # type: ignore[arg-type]
+        pass
 
     def query(
         self,

@@ -229,8 +229,7 @@ class Video:
     @property
     def name(self) -> str:
         """Name or path of the video, read-only."""
-        # Because it is used in __hash__, it needs to be immutable.
-        return self._name
+        pass
 
     @property
     def exists(self) -> bool:
@@ -240,12 +239,12 @@ class Video:
     @property
     def age(self) -> timedelta:
         """Age of the video."""
-        return get_age(self.name, use_ctime=self.use_ctime)
+        pass
 
     @property
     def subtitle_languages(self) -> set[Language]:
         """Set of languages from the subtitles already found for the video."""
-        return {s.language for s in self.subtitles}
+        pass
 
     @classmethod
     def fromguess(cls, name: str, guess: dict[str, Any]) -> Video:
@@ -272,7 +271,7 @@ class Video:
         :param str name: name of the video.
 
         """
-        return cls.fromguess(name, safely_guessit(name))
+        pass
 
     def __repr__(self) -> str:  # pragma: no cover
         return f'<{self.__class__.__name__} [{self.name!r}]>'
@@ -367,7 +366,7 @@ class Episode(Video):
 
         With various episodes, return the minimum.
         """
-        return min(self.episodes) if self.episodes else None
+        pass
 
     def matches(self, series: str | None) -> bool:
         """Match the name to the series name, using alternative series names also.."""
@@ -405,7 +404,7 @@ class Episode(Video):
     @classmethod
     def fromname(cls, name: str) -> Episode:
         """Return an :class:`Episode` from the file name."""
-        return cls.fromguess(name, safely_guessit(name, {'type': 'episode'}))
+        pass
 
     def __repr__(self) -> str:
         return '<{cn} [{series}{country}{year} s{season:02d}e{episodes}]>'.format(
@@ -491,7 +490,7 @@ class Movie(Video):
     @classmethod
     def fromname(cls, name: str) -> Movie:
         """Return an :class:`Movie` from the file name."""
-        return cls.fromguess(name, safely_guessit(name, {'type': 'movie'}))
+        pass
 
     def __repr__(self) -> str:
         return '<{cn} [{title}{country}{year}]>'.format(

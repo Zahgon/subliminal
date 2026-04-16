@@ -206,26 +206,17 @@ class TMDBClient:
         country: str | None = None,
     ) -> dict[str, Any]:
         """Search for episode."""
-        tmdb_id = self.get_id(series_name, is_movie=False, year=year, country=country)
-        if tmdb_id is None:
-            return {}
-        res = self.query(tmdb_id, is_movie=False, season=season, episode=episode)
-        return cast('dict', res)
+        pass
 
     @property
     def apikey(self) -> str | None:
         """API key for search."""
-        return self._apikey
+        pass
 
     @apikey.setter
     def apikey(self, value: str | None) -> None:
         # early return if the API key is unchanged
-        if value == self._apikey:
-            return
-        self._apikey = value
-        # update the default session parameters
-        if value:
-            self.session.params['api_key'] = self.apikey  # type: ignore[index]
+        pass
 
 
 def refine_episode(client: TMDBClient, video: Episode, *, force: bool = False, **kwargs: Any) -> None:

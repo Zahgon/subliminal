@@ -136,15 +136,11 @@ class SubtitulamosProvider(Provider):
 
     def initialize(self) -> None:
         """Initialize the provider."""
-        self.session = Session()
-        self.session.headers['User-Agent'] = f'Subliminal/{__short_version__}'
+        pass
 
     def terminate(self) -> None:
         """Terminate the provider."""
-        if not self.session:
-            raise NotInitializedProviderError
-        self.session.close()
-        self.session = None
+        pass
 
     def _session_request(self, *args: Any, **kwargs: Any) -> Response:
         """Perform a GET request to the provider."""

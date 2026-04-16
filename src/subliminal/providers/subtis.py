@@ -142,16 +142,11 @@ class SubtisProvider(Provider[SubtisSubtitle]):
 
     def initialize(self) -> None:
         """Initialize the provider."""
-        self.session = Session()
-        self.session.headers['User-Agent'] = self.user_agent
-        self.session.headers['Accept'] = 'application/json'
+        pass
 
     def terminate(self) -> None:
         """Terminate the provider."""
-        if self.session is None:
-            raise NotInitializedProviderError
-        self.session.close()
-        self.session = None
+        pass
 
     def _session_request(self, url: str) -> dict[str, Any] | None:
         """Perform a GET request to the provider."""

@@ -42,14 +42,7 @@ def series_matches(video: Video, *, title: str | None = None, **kwargs: Any) -> 
     :rtype: bool
 
     """
-    if not isinstance(video, Episode):
-        return False
-    sanitized_title = sanitize(title)
-    return (
-        video.series is not None
-        and sanitized_title is not None
-        and sanitized_title in (sanitize(name) for name in [video.series, *video.alternative_series])
-    )
+    pass
 
 
 def title_matches(video: Video, *, title: str | None = None, episode_title: str | None = None, **kwargs: Any) -> bool:
@@ -63,11 +56,7 @@ def title_matches(video: Video, *, title: str | None = None, episode_title: str 
     :rtype: bool
 
     """
-    if isinstance(video, Episode):
-        return video.title is not None and sanitize(episode_title) == sanitize(video.title)
-    if isinstance(video, Movie):
-        return video.title is not None and sanitize(title) == sanitize(video.title)
-    return False  # pragma: no cover
+    pass
 
 
 def season_matches(video: Video, *, season: int | None = None, **kwargs: Any) -> bool:
@@ -80,9 +69,7 @@ def season_matches(video: Video, *, season: int | None = None, **kwargs: Any) ->
     :rtype: bool
 
     """
-    if not isinstance(video, Episode):
-        return False
-    return video.season is not None and season == video.season
+    pass
 
 
 def episode_matches(video: Video, *, episode: int | None = None, **kwargs: Any) -> bool:
@@ -96,9 +83,7 @@ def episode_matches(video: Video, *, episode: int | None = None, **kwargs: Any) 
     :rtype: bool
 
     """
-    if not isinstance(video, Episode):
-        return False
-    return video.episodes is not None and ensure_list(episode) == video.episodes
+    pass
 
 
 def year_matches(video: Video, *, year: int | None = None, partial: bool = False, **kwargs: Any) -> bool:
@@ -112,12 +97,7 @@ def year_matches(video: Video, *, year: int | None = None, partial: bool = False
     :rtype: bool
 
     """
-    if video.year is not None and year == video.year:
-        return True
-    if isinstance(video, Episode):
-        # count "no year" as an information
-        return not partial and video.original_series and year is None
-    return False
+    pass
 
 
 def country_matches(video: Video, *, country: Country | None = None, partial: bool = False, **kwargs: Any) -> bool:
@@ -132,17 +112,7 @@ def country_matches(video: Video, *, country: Country | None = None, partial: bo
     :rtype: bool
 
     """
-    if video.country is not None and country == video.country:
-        return True
-
-    if isinstance(video, Episode):
-        # count "no country" as an information
-        return not partial and video.original_series and country is None
-
-    if isinstance(video, Movie):
-        # count "no country" as an information
-        return video.country is None and country is None
-    return False  # pragma: no cover
+    pass
 
 
 def fps_matches(video: Video, *, fps: float | None = None, strict: bool = True, **kwargs: Any) -> bool:
@@ -178,14 +148,7 @@ def release_group_matches(video: Video, *, release_group: str | None = None, **k
     :rtype: bool
 
     """
-    return (
-        video.release_group is not None
-        and release_group is not None
-        and any(
-            r in sanitize_release_group(release_group)
-            for r in get_equivalent_release_groups(sanitize_release_group(video.release_group))
-        )
-    )
+    pass
 
 
 def streaming_service_matches(video: Video, *, streaming_service: str | None = None, **kwargs: Any) -> bool:
@@ -198,7 +161,7 @@ def streaming_service_matches(video: Video, *, streaming_service: str | None = N
     :rtype: bool
 
     """
-    return video.streaming_service is not None and streaming_service == video.streaming_service
+    pass
 
 
 def resolution_matches(video: Video, *, screen_size: str | None = None, **kwargs: Any) -> bool:
@@ -211,7 +174,7 @@ def resolution_matches(video: Video, *, screen_size: str | None = None, **kwargs
     :rtype: bool
 
     """
-    return video.resolution is not None and screen_size == video.resolution
+    pass
 
 
 def source_matches(video: Video, *, source: str | None = None, **kwargs: Any) -> bool:
@@ -224,7 +187,7 @@ def source_matches(video: Video, *, source: str | None = None, **kwargs: Any) ->
     :rtype: bool
 
     """
-    return video.source is not None and source == video.source
+    pass
 
 
 def video_codec_matches(video: Video, *, video_codec: str | None = None, **kwargs: Any) -> bool:
@@ -237,7 +200,7 @@ def video_codec_matches(video: Video, *, video_codec: str | None = None, **kwarg
     :rtype: bool
 
     """
-    return video.video_codec is not None and video_codec == video.video_codec
+    pass
 
 
 def audio_codec_matches(video: Video, *, audio_codec: str | None = None, **kwargs: Any) -> bool:
@@ -250,7 +213,7 @@ def audio_codec_matches(video: Video, *, audio_codec: str | None = None, **kwarg
     :rtype: bool
 
     """
-    return video.audio_codec is not None and audio_codec == video.audio_codec
+    pass
 
 
 #: Available matches functions

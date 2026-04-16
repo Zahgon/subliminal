@@ -310,9 +310,7 @@ class ProviderPool:
 
     def terminate(self) -> None:
         """Terminate all the :attr:`initialized_providers`."""
-        logger.debug('Terminating initialized providers')
-        for name in list(self.initialized_providers):
-            del self[name]
+        pass
 
 
 class AsyncProviderPool(ProviderPool):
@@ -339,7 +337,7 @@ class AsyncProviderPool(ProviderPool):
         languages: Set[Language],
     ) -> tuple[str, list[Subtitle] | None]:
         """List subtitles with a single provider, multi-threaded."""
-        return provider, super().list_subtitles_provider(provider, video, languages)
+        pass
 
     def list_subtitles(self, video: Video, languages: Set[Language]) -> list[Subtitle]:
         """List subtitles, multi-threaded."""

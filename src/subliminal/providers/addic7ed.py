@@ -247,31 +247,11 @@ class Addic7edProvider(Provider):
 
     def initialize(self) -> None:
         """Initialize the provider."""
-        self.session = Session()
-        self.session.headers['Accept-Language'] = 'en-US,en;q=1.0'
-        self.session.headers['Referer'] = self.server_url
-
-        logger.debug('Addic7ed: using random user agents')
-        self.session.headers['User-Agent'] = AGENT_LIST[randint(0, len(AGENT_LIST) - 1)]  # noqa: S311
-
-        # login:
-        if self.username and self.password:
-            cookies = {'wikisubtitlesuser': self.username, 'wikisubtitlespass': self.password}
-            self.session.cookies = RequestsCookieJar()
-            for k, v in cookies.items():
-                self.session.cookies.set(k, v)
-
-            logger.debug('Logged in')
-            self.logged_in = True
+        pass
 
     def terminate(self) -> None:
         """Terminate the provider."""
-        if not self.session:  # pragma: no cover
-            raise NotInitializedProviderError
-
-        logger.debug('Logged out')
-        self.logged_in = False
-        self.session.close()
+        pass
 
     @region.cache_on_arguments(expiration_time=SHOW_EXPIRATION_TIME)
     def _get_show_ids(self) -> dict[str, int]:

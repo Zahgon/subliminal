@@ -63,7 +63,4 @@ class SubtitulamosConverter(LanguageReverseConverter):
 
     def reverse(self, code: str) -> LanguageTuple:
         """Reverse a custom code into alpha3, country and script code."""
-        if code in self.from_subtitulamos:
-            return (*self.from_subtitulamos[code], None)
-
-        return self.name_converter.reverse(code)  # type: ignore[no-any-return]
+        pass

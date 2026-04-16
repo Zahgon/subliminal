@@ -195,16 +195,12 @@ class OMDBClient:
     @property
     def apikey(self) -> str:
         """API key for search."""
-        return self._apikey
+        pass
 
     @apikey.setter
     def apikey(self, value: str) -> None:
         # early return if the API key is unchanged
-        if value == self._apikey:
-            return
-        self._apikey = value
-        # update the default session parameters
-        self.session.params['apikey'] = self.apikey  # type: ignore[index]
+        pass
 
 
 def refine_episode(client: OMDBClient, video: Episode, *, force: bool = False, **kwargs: Any) -> None:
