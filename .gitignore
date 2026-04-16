@@ -63,3 +63,6 @@ target/
 # Subliminal
 tests/data/mkv/
 tests/data/rar/
+
+.aider*
+logs/
