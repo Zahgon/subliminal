@@ -51,7 +51,22 @@ class RegistrableExtensionManager(ExtensionManager):
 
     def list_entry_points(self) -> list[EntryPoint]:
         """List the entry points."""
-        pass
+        # copy of default extensions
+        eps = list(super().list_entry_points())
+
+        # internal extensions
+        for iep in self.internal_extensions:
+            ep = parse_entry_point(iep, self.namespace)
+            if ep.name not in [e.name for e in eps]:
+                eps.append(ep)
+
+        # registered extensions
+        for rep in self.registered_extensions:
+            ep = parse_entry_point(rep, self.namespace)
+            if ep.name not in [e.name for e in eps]:  # pragma: no branch
+                eps.append(ep)
+
+        return eps
 
     def __compat_load_one_plugin(self, ep: EntryPoint) -> Extension | None:  # pragma: no cover
         if self._old_api:
@@ -104,7 +119,18 @@ class RegistrableExtensionManager(ExtensionManager):
         :raises: ValueError if already registered.
 
         """
-        pass
+        if entry_point not in self.registered_extensions:
+            msg = 'Extension not registered'
+            raise ValueError(msg)
+
+        ep = parse_entry_point(entry_point, self.namespace)
+        self.registered_extensions.remove(entry_point)
+        if self._extensions_by_name is not None:  # pragma: no branch
+            del self._extensions_by_name[ep.name]
+        for i, ext in enumerate(self.extensions):  # pragma: no branch
+            if ext.name == ep.name:
+                del self.extensions[i]
+                break
 
 
 def parse_entry_point(src: str, group: str) -> EntryPoint:
